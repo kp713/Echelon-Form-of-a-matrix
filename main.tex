@@ -1,0 +1,527 @@
+\documentclass[12pt]{article}
+\parindent=.25in
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\textwidth}{440pt}
+\setlength{\topmargin}{0in}
+
+\usepackage{lmodern}
+\usepackage{xspace}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage[center]{subfigure}
+\usepackage{epsfig}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{esvect}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,matrix}
+\usetikzlibrary{matrix}
+\usepackage{tabularx}
+\usepackage{mathtools}
+\usepackage{arydshln,leftidx,mathtools}
+\setlength{\dashlinedash}{.4pt}
+\setlength{\dashlinegap}{.8pt}
+\usepackage[all]{xy}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+
+% Inline bibliographies
+\usepackage{filecontents}
+% Algorithm environment
+\usepackage{algorithmicx,algpseudocode,  algorithm}
+% Diagrams and figures in TikZ
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\newcommand{\marginrk}[1]{\marginpar{\tiny#1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\noi}{{\noindent}}
+\newcommand{\ms}{{\medskip}}
+\newcommand{\msni}{{\medskip \noindent}}
+
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\calc}{{\cal C}}
+\newcommand{\cald}{{\cal D}}
+\newcommand{\calh}{{\cal H}}
+\newcommand{\cala}{{\cal A}}
+
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\size}{\mathrm{size}}
+\newcommand{\depth}{\mathrm{depth}} 
+
+%% New stuff
+% Shortcuts
+\newcommand{\eps}{\ensuremath{\epsilon}\xspace}
+\newcommand{\Algo}{\ensuremath{\mathcal{A}}\xspace} % Adversarial algorithm A
+\newcommand{\Tester}{\ensuremath{\mathcal{T}}\xspace} % Testing algorithm T
+\newcommand{\eqdef}{\stackrel{\rm def}{=}}
+\newcommand{\eqlaw}{\stackrel{\mathcal{L}}{=}}
+\newcommand{\accept}{\textsf{ACCEPT}\xspace}
+\newcommand{\fail}{\textsf{FAIL}\xspace}
+\newcommand{\reject}{\textsf{REJECT}\xspace}
+\newcommand{\yes}{{\sf{}Yes}\xspace} 
+\newcommand{\no}{{\sf{}No}\xspace} 
+% Distances
+\newcommand{\totalvardist}[2]{{\operatorname{d_{\rm TV}}\!\left({#1, #2}\right)}}
+\newcommand{\hamming}[2]{{\operatorname{d}\!\left(#1, #2\right)}}
+\newcommand{\editdist}[2]{{\operatorname{d}\!\left(#1, #2\right)}}
+\newcommand{\dist}[2]{{\operatorname{dist}\!\left(#1, #2\right)}}
+% Norms
+\newcommand{\norm}[1]{\lVert#1{\rVert}}
+\newcommand{\normone}[1]{{\norm{#1}}_1}
+\newcommand{\normtwo}[1]{{\norm{#1}}_2}
+\newcommand{\norminf}[1]{{\norm{#1}}_\infty}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+% Sets and indicators
+\newcommand{\setOfSuchThat}[2]{ \left\{\; #1 \;\colon\; #2\; \right\} } 			% sets such as "{ elems | condition }"
+% Probability
+\newcommand{\proba}{\operatorname{\mathbb{P}}}
+\newcommand{\probaOf}[1]{\Pr\!\left[\, #1\, \right]}
+\newcommand{\probaCond}[2]{\Pr\!\left[\, #1 \;\middle\vert\; #2\, \right]}
+\newcommand{\probaDistrOf}[2]{\Pr_{#1}\left[\, #2\, \right]}
+% Expectation & variance
+\newcommand{\expect}[1]{\mathbb{E}\!\left[#1\right]}
+\newcommand{\expectCond}[2]{\mathbb{E}\!\left[\, #1 \;\middle\vert\; #2\, \right]}
+\newcommand{\shortexpect}{\mathbb{E}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\uniform}{\ensuremath{\mathcal{U}}}
+% Complexity
+\newcommand{\littleO}[1]{{o\!\left({#1}\right)}}
+\newcommand{\bigO}[1]{{O\!\left({#1}\right)}}
+\newcommand{\bigTheta}[1]{{\Theta\!\left({#1}\right)}}
+\newcommand{\bigOmega}[1]{{\Omega\!\left({#1}\right)}}
+\newcommand{\tildeO}[1]{\tilde{O}\!\left({#1}\right)}
+\newcommand{\tildeTheta}[1]{\operatorname{\tilde{\Theta}}\!\left({#1}\right)}
+
+\pagestyle{headings}    % Go for customized headings
+
+\newcommand{\handout}[5]{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \parbox[t]{4in} {\bf #1 } \vspace{3mm}  {\hfill \bf #2 }
+       \vspace{2mm}
+       \hbox to 6.00in { {\Large \hfill #5  \hfill} }
+       \vspace{1mm}
+       \hbox to 6.00in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{1mm}
+}
+
+% compact lists, and handy shortcuts for items
+\usepackage[shortlabels]{enumitem}
+
+\begin{document}
+
+\handout{PGDM2018: Numerical Linear Algebra}{July-October 2018}
+{Lecturer: Dr.Rakesh Nigam}
+{Scribes: A.S.Krishnapriya}{Lecture 7 and 8: 20/8/2018}
+
+\thispagestyle{plain}
+
+\section{Today}
+
+\begin{itemize}
+\item Column space of a matrix
+\item Linear Dependence and Linear Independence
+\item Null space of a Matrix
+\item Echelon form of a Matrix
+\end{itemize}
+
+
+
+\section{Column space of a Matrix}
+  \begin{equation}
+       A\vv{X} = \vv{b}
+  \end{equation}
+                 
+If we're a given a matrix A for what values of $\vv{b}$ will we have a solution $\vv{x}$?
+Let the matrix A be 
+\begin{equation}
+   A = \left({\begin{array}{cccc} 1 & 1 & 2\\2 & 1 &3\\ 3& 1 &4 \\4& 1 & 5\end{array}}\right)
+\end{equation}
+
+By seeing this matrix A in the light of the equation A$\vv{X}$=$\vvb$ we see that it is equivalent to solving 4 linear equations with three variables. Not every value of $\vv{b}$ can satisfy the equation, only a particular set of values of $\vv{b}$ can hold true. So $\vv{b}$ is a linear combination of the columns of matrix A.
+ we define column space as follows:
+ \begin{equation}
+     \vv{b} \in Col(A) =\{ \vv{b} \in  {\rm I\!R}^n | A\vv{X} = \vv{b} \}
+ \end{equation}
+
+\textbf{Only when \textbf{$\vv{b}$} is a vector in the column space of A is the equation  \textbf{A\vv{X} = $\vv{b}$} solvable.}
+\newpage
+
+If elements of $\vv{b}$ are b_1, b_2 ....$b_n$  
+then in the solution of the equation A\vv{X} = $\vv{b}$ where $\vv{b}$ is in the column space of A, elements of $\vv{b}$ are the linear combinations of elements of A and $\vv{X}$ and can be represented as :
+\begin{center}
+       x_1 c_1 = $b_1$
+\newline x_2 c_2 = $b_2$
+\newline \dots
+x_n c_n = b_n
+\end{center}
+      
+Where c_1 , c_2 ,...$c_n$ are the columns of matrix A and x_1 ,x_2 and $x_n$ the elements of the vector $\vv{X}$
+
+If we look at equation (2) we see that the sum of the first two columns of A will give the third column of A. So, we can say that the Columns $C_1$ and $C_2$ of A are \textbf{independent} columns whereas column $C_3$ is a \textbf{dependent} column of the matrix A.
+We shall look at linear dependence and linear Independence in the following section. 
+
+
+
+\section{Linear Dependence and Linear Independence}
+Consider the equation 
+\begin{equation}
+    A\vv{X} = \vv{0}
+\end{equation}
+
+
+
+Where A,a matrix of dimensions m by n and X a vector when multiplied give a 0 vector.
+This can be expressed in the form of  linear combinations as follows :
+\begin{center}
+    $X_1$C_1 + $X_2$C_2 .....X_n C_n =$\vv{0}$
+   \linebreaK
+   \implies X_1 =X_2 =X_3 =...= X_n =0
+\end{center}
+This shows that the columns of the Matrix A are independent as they cannot be expressed as combinations of each other.
+\begin{equation}
+   X = \left({\begin{array}{c} X_1\\X_2\\ . \\. \\.\\X_n\end{array}}\right) = \vv{0}
+\end{equation}
+ In the equation A\vv{X} = $\vv{0}$ the columns of A can be expressed as
+ \begin{equation}
+     C_1 = \left({\begin{array}{c} 1\\0\end{array}}\right) 
+     C_2 = \left({\begin{array}{c} 0\\1\end{array}}\right)
+ \end{equation}
+ \linebreaK 
+ 
+ Such that 
+ \begin{equation}
+  X_1 C_1 + X_2 C_2 =\vv{0} =\left({\begin{array}{c} 0\\0\end{array}}\right)
+\end{equation}
+\MoveEqLeft \implies \left({\begin{array}{c} X_1\\0\end{array}}\right) + \left({\begin{array}{c} 0\\X_2\end{array}}\right)= $\vv{0}$ =\left({\begin{array}{c} 0\\0\end{array}}\right) 
+\begin{equation}
+\left({\begin{array}{c}X_1\\X_2\end{array}}\right)=\left({\begin{array}{c} 0\\0\end{array}}\right) =X_1 =X_2 = 0
+\end{equation}
+
+
+This shows that they are linearly independent.
+
+Suppose  in the equation A\vv{X} = $\vv{0}$ the columns of A can be expressed as
+ \begin{equation}
+     C_1 = \left({\begin{array}{c} 1\\0\end{array}}\right) 
+     C_2 = \left({\begin{array}{c} 2\\0\end{array}}\right)
+ \end{equation}
+  We get :
+  \begin{equation}
+  X_1 C_1 + X_2 C_2 =
+
+  X_1\left({\begin{array}{c} 1\\0\end{array}}\right)  + X_2\left({\begin{array}{c} 2\\0\end{array}}\right) 
+  =
+  \left({\begin{array}{c} X_1 + 2 X_2\\0\end{array}}\right)
+ \implies \left({\begin{array}{c}
+ X_1+2X_2\\0\end{array}}\right)= $\vv{0}$ =\left({\begin{array}{c} 0\\0\end{array}}\right) 
+
+\begin{equation}
+X_1 +2 X_2 = 0 \implies X_1 = - 2X_2
+\end{equation}
+If we take X_2 =1 \implies X_1= -2
+ 
+ 
+ we get :
+ \begin{equation}
+     X_1 C_1 +X_2 C_2 = -2C_1 + C_2 = 0
+     \implies C_2 =2 C_1
+ \end{equation}
+ Here the column 2 of A can be expressed a linear combination of column 1. Hence we say there is dependency between the columns of A in this case.
+In the equation A\vv{X} = $\vv{0}$ if $\vv{X}$ =$\vv{0}$ is the only solution then all the columns of A are \textbf{linearly independent}
+
+\section{Null space of a Matrix}  
+In the equation A\vv{X} = $\vv{0}$
+The set of all values of $\vv{X}$ that when multiplied with the matrix A give the value $\vv{0}$ are said to be in the \textbf{Null space} of A.
+Null space of a matrix is defined as
+\begin{equation}
+     \vv{X} \in N(A) =\{ \vv{X} \in  {\rm I\!R}^n | A\vv{X} = \vv{0} \}
+ \end{equation}
+ By definition  $\vv{0}$ \in N(A)
+
+\section{Echelon form of a Matrix}
+In the previous lecture we have seen how to obtain the lower and upper triangular form of a matrix by the process of elimination.Here we go one step further to obtain the stair case form or the Echelon form.
+
+Let's go about this with an example :
+
+\newpage
+We have the three linear equations :
+
+\begin{equation}
+  x_{1} + 2x_{2} + 2x_{3} + 2x_{4} = 0
+\end{equation}
+\begin{equation}
+    2x_{1}+4x_{2}+6x_{3}-8x_{4} = 0
+\end{equation}
+\begin{equation}
+3x_{1}+ 6x_{2}+8x_{3}+ 10x_{4} = 0
+\end{equation}
+         
+
+Now, we need to solve these equations for x,y and z.
+         
+The row representation of these three equations would look like this:
+\begin{equation}
+    \left({\begin{array}{cccc} 1 & 2 & 2 & 2\\2 & 4 & 6 &2\\ 3& 6 & 8 &10 \end{array}}\right)
+\left(\begin{array}{c} x_{1_} & x_{2_} & x_{3_}&x_{4_} \end{array}\right)
+=
+\left(\begin{array}{c} 0\\ 0\\0\\0\end{array}\right)
+\end{equation}
+
+
+This equation is basically
+A$\vv{X}$ = $\vv{b}$
+
+Where A denotes the matrix of constants , $\vv{X}$  
+
+denotes the matrix of variables and $\vv{b}$ 
+
+here ,denotes the vector of zeroes on the right hand side of the equation.
+
+
+What does this equation tell us?
+It tells us that \vv{b} 
+
+is in the null space of A .
+We need to find $\v {b}$
+
+Let's form the Upper triangular matrix 
+\begin{equation}
+    \left({\begin{array}{cccc}\boldsymbol{1}  & 2 & 2 & 2\\2 & 4 & 6 & 8\\ 3& 6 & 8  & 10 \end{array}}\right)
+\end{equation}
+\newpage
+If you recall in order to convert to the upper triangular matrix we assigned the first element of the first row and first column i.e the element in the position [1,1] as our first pivot. 
+A pivot is the element which we will be using to carry out row operations on this matrix to obtain the upper triangular matrix. This is the reference element, the elements in the matrix below the pivot element need to be converted to 0 by means of row operations.
+This is what we did in the previous section. A quick refresher of the operations carried out in a similar manner and the result are as follows :
+
+
+\begin{equation}
+Operation 1     : E1    
+\begin{center}
+{r_{11} $\longrightarrow$  r_{1}\right)
+ 
+ r_{21} $\longrightarrow $  r_{2} - 2r_{1}\right)
+ 
+ r_{31} $\longrightarrow$  r_{3} - 3r_{1}\right)
+ 
+ \end{center}
+\end{equation}
+
+\allowdisplaybreaks
+This results in the following matrix:
+\begin{equation}
+    \left({\begin{array}{cccc} 1  & 2 & 2 & 2\\0 & 0 & \boldsymbol{2} & 4\\ 0 & 0 & 2 & 4 \end{array}}\right)  
+\end{equation}
+
+
+ 
+\begin{equation}
+Operation 2     : E2  
+
+
+\begin{center}
+   {r_{1_2} $\longrightarrow$  r_{1_1}\right)
+ 
+\left  r_{2_2} $\longrightarrow $  r_{2_1}
+ 
+ \left r_{3_2} $\longrightarrow$  r_{3_1} $-$  r_{2_1}\right )
+  
+\end{center}
+\end{equation}
+
+Final Upper triangular Matrix Obtained :
+\begin{equation}
+    \left({\begin{array}{cccc} 1 \hdots & 2 \hdots & 2 & 2\\0 & 0 \vdots& 2\hdots & 4\\ 0 & 0 & 0 & \vdots0 \end{array}}\right)
+\end{equation}
+As you can see this Upper triangular matrix takes on a stair case form. This is also called the the Eschelon form.
+
+\newpage
+\subsection{Rank of a Matrix}
+Rank of a Matrix is the number of pivots it contains this is equal to the number of pivot columns or the number of pivot rows.
+Here, the rank of the matrix is 2. ( As in two operations the Eschelon form is obtained.)
+This matrix A is rank deficient as it does not have the full column rank of 4.
+
+This means that non-trivial N(A) exists.
+\begin{center}
+\begin{equation}
+ 
+ \vv{X}  \not= $\vv{0}$ \in N(A)
+ 
+\end{equation}
+\end{center}
+\begin{equation}
+\begin{center}
+    
+
+A$\vv{X}$ = $\vv {0}$ \xrightarrow{E_1_,E_2_} U $\vv{X}$ =$\vv{0}$ 
+\end{center}
+\end{equation}
+\begin{equation}
+ \begin{center}
+     
+   
+        \left({\begin{array}{cccc}~*_\vv{C_1_} &_\vv{C_2_}&*_\vv{C_3_}&_\vv{C_4_} \cr 
+   1 & 2 & 2 & 2\\0 & 0 & 2 & 4\\ 0 & 0 & 0 & 0 \end{array}}\right)
+   \left({\begin{array}{c}x_1\\x_2\\x_3\\x_4 \end{array}}\right)
+   = \left({\begin{array}{c}0\\0\\0\\0 \end{array}}\right)
+ 
+  
+\end{center} 
+\end{equation}
+
+  $x_2$ and $x_4$ are free variables corresponding to free columns $\vv{C_3}$ and \vv{C_4}
+\linebreak
+\begin{equation}
+    \begin{center}
+        x_1 +2x_2 +2x_3+2x_4 =0
+
+2x_3 + 4x_4=0
+\linebreaK
+
+0x_1 +0x_2 +0x_3 +0x_4 =0
+    \end{center}
+\end{equation}
+
+
+\newline
+This shows consistency.
+
+Independent columns are the pivot columns
+$*_\vv{C_1_}$ and  $*_\vv{C_3_}$
+
+\linebreak
+\begin{equation}
+    
+    x_1\vv{C_1}+x_2\vv{C_2}+x_3\vv{C_3}+x_4\vv{C_4}= $$\vv0$
+
+\end{equation}
+
+
+
+From this equation,by substituting the free variables $x_2$ and $x_4$ as  $x_2$ =1 and $x_4$ =0 we get :
+\begin{equation}
+\begin{center}
+    $\vv{C_2}$= -( $x_1$ $*_\vv{C_1}$ $+$ $x_3$ $*_\vv{C_3}$) 
+\end{center}
+
+\end{equation}
+
+
+\linebreaK
+We know that :
+\begin{equation}
+
+  $x_1$=-2,
+$x_2$=1,
+$x_3$=0,
+$x_4$=0 
+
+\end{equation}
+
+\begin{equation}
+  \begin{center}
+$\vv{ X_1}$
+=\left({\begin{array}{cc}-2\\1\\0\\0\end{array}}\right )
+\not= \vv0
+  \end{center} 
+
+\end{equation}
+
+
+
+
+
+
+
+
+\newpage
+
+From here we can see that
+\begin{equation}
+\begin{center}
+    
+
+    -2$\vv{C_1} + \vv C_2 =0
+
+2$\vv{C_1}$ = $\vv C_2$ 
+\end{center}
+\end{equation}
+
+
+
+
+
+
+
+Similarly,
+by assigning $x_4$=1 and $x_2$=0
+
+we get :
+\begin{equation}
+    \begin{center}
+       $\vv {C_4}$ = -(x_1 $\vv{C_1}$+x_3$\vv{C_3}$)
+
+$\vv {X_1}$
+=\left({\begin{array}{cc}2\\0\\-2\\1\end{array}}\right )
+\not= \vv{0} 
+    \end{center}
+\end{equation}
+
+
+
+
+From here we can see that
+
+\begin{equation}
+    \begin{center}
+        2($\vv{C_3}$ - $ \vv  C_1$) = $\vv{C_4}$
+    \end{center}
+\end{equation}
+
+
+These values$\vv {X_1}$ and $\vv {X_2}$ are scalable.
+ 
+
+
+\subsection{Summary}
+In this lecture the following topics were covered :
+\begin{itemize}
+    \item \vv{b} \in Col(A) =\{ \vv{b} \in  {\rm I\!R}^n | A\vv{X} = \vv{b} \}
+    \item In the equation A\vv{X} = $\vv{0}$ if $\vv{X}$ =$\vv{0}$ is the only solution then all the columns of A are \textbf{linearly independent}
+    \item \vv{X} \in N(A) =\{ \vv{X} \in  {\rm I\!R}^n | A\vv{X} = $\vv{0} $\}}
+    \item Rank of a Matrix is the number of pivots it contains this is equal to the number of pivot columns or the number of pivot rows.
+\end{itemize}
+
+
+  
+
+
+
+\end{document}
